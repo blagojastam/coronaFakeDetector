@@ -18,8 +18,7 @@ import java.util.List;
 public class Controller {
 
     @GetMapping("/checkURL")
-    public ResponseEntity<RestResponse> checkURL(@RequestParam String URL) {
-        RestResponse response = new RestResponse();
+    public ResponseEntity<RestResponse> checkURL(@RequestParam JsonRequest URL) {
         Article article = new Article();
         article.setAuthor("Some Author");
         article.setFakeProbability(68);
@@ -28,29 +27,20 @@ public class Controller {
         website.setURL("example.com");
         article.setParent(website);
 
-        response.setResponse(article);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(new RestResponse(article));
     }
 
     @GetMapping("/checkPhoto")
-    public ResponseEntity<String> checkPhoto(@RequestParam MultipartFile photo) {
-        String fileName = "default";
-        try {
-            fileName = Hashing.sha256().hashBytes(photo.getBytes()).toString();
-        }
-        catch (IOException e) {
-            return ResponseEntity.badRequest().body("Photo could not be processed.");
-        }
+    public ResponseEntity<RestResponse> checkPhoto(@RequestBody JsonRequest photo) {
+        String base64 = (String)photo.getPhoto();
+        String hash = Hashing.sha256().hashBytes(base64.getBytes()).toString();;
 
-
-
-        return ResponseEntity.ok(fileName);
+        return ResponseEntity.ok(new RestResponse(hash));
     }
 
     @GetMapping("/checkText")
-    public ResponseEntity<String> checkText(@RequestBody String text) {
+    public ResponseEntity<RestResponse> checkText(@RequestBody JsonRequest text) {
 
-        return ResponseEntity.ok("OK");
+        return ResponseEntity.ok(new RestResponse(text.getText()));
     }
 }
