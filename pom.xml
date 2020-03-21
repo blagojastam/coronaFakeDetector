@@ -40,10 +40,11 @@
                     <version>42.2.2</version>
                 </dependency>
 
+                <!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jdbc -->
                 <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                    <version>1.4.200</version>
+                    <groupId>org.apache.tomcat</groupId>
+                    <artifactId>tomcat-jdbc</artifactId>
+                    <version>9.0.31</version>
                 </dependency>
 
                 <dependency>
